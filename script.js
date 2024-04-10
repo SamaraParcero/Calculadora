@@ -118,6 +118,7 @@ class Calculadora {
 
   // Tecla x2 : Quadrado do número
   quadradoNumero() {
+    if (this.estadoErro) return;
     let quadrado = (this.nrVisor *= this.nrVisor);
     this.nrVisor = quadrado;
   }
