@@ -31,6 +31,7 @@ class Calculadora {
   // recebe dígito
   digito(dig) {
     if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
     if (dig.length != 1) return;
     if ((dig < "0" || dig > "9") && dig != ".") return;
     if (!this.iniciouSegundo && this.opAtual != this.op.NOP) {
@@ -53,6 +54,7 @@ class Calculadora {
   // Definir qual a operação atual
   defineOperacao(op) {
     if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
     switch (op) {
       case "+":
         this.opAtual = this.op.SUM;
@@ -104,10 +106,34 @@ class Calculadora {
     this.ptDecimal = false;
     this.memTemp = "";
     this.nrVisor = String(resultado).slice(0, 10);
+    this.opAtual = this.op.NOP;
+    this.estaLigada = true;
+  }
+
+  // Define o estado da calculadora como ligada
+  on() {
+    this.estaLigada = true;
+    this.nrVisor = "0";
+    this.memTemp = "";
+    this.estadoErro = false;
+    atualizaVisor();
+  }
+
+  // Define o estado da calculadora como desligada
+  off() {
+    this.estaLigada = false;
+    this.nrVisor = "OFF";
+    this.memoria = 0;
+    atualizaVisor();
+  }
+
+  estaDesligada() {
+    return !this.estaLigada;
   }
 
   // Limpa dados (exceto memória)
   teclaC() {
+    if (this.estaDesligada()) return;
     this.nrVisor = "0";
     this.ptDecimal = false;
     this.iniciouSegundo = false;
@@ -119,6 +145,7 @@ class Calculadora {
   // Tecla x2 : Quadrado do número
   quadradoNumero() {
     if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
     let quadrado = (this.nrVisor *= this.nrVisor);
     this.nrVisor = quadrado;
   }
@@ -126,75 +153,84 @@ class Calculadora {
   // tecla M+ : acrescenta à memória o número no visor
   teclaMmais() {
     if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
     this.memoria += parseFloat(this.nrVisor);
   }
 
   // tecla M- : subtrai da memória o número no visor
   teclaMmenos() {
     if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
     this.memoria -= parseFloat(this.nrVisor);
   }
 
   // tecla M+ : acrescenta à memória o número no visor
   teclaMmais() {
     if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
     this.memoria += parseFloat(this.nrVisor);
   }
 
   // tecla M- : subtrai da memória o número no visor
   teclaMmenos() {
     if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
     this.memoria -= parseFloat(this.nrVisor);
   }
 
-    // tecla RM : recupera o conteúdo da memória -> coloca no visor
-    teclaRM() {
-        if (this.estadoErro) return;
-        this.nrVisor = String(this.memoria);
-    }
+  // tecla RM : recupera o conteúdo da memória -> coloca no visor
+  teclaRM() {
+    if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
+    this.nrVisor = String(this.memoria);
+  }
 
-    // tecla CLM : limpa totalmente o conteúdo da memória -> atribui 0
-    teclaCLM() {
-        if (this.estadoErro) return;
+  // tecla CLM : limpa totalmente o conteúdo da memória -> atribui 0
+  teclaCLM() {
+    if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
     if (this.memoria !== 0) {
-        this.memoria = 0; 
-     }
+      this.memoria = 0;
     }
+  }
 
-    teclaRaiz(){
-        if (this.estadoErro) return;
-        let numero = parseFloat(this.nrVisor);
-        if (numero < 0) {
-            this.estadoErro = true;
-            return;
-        }
-        let resultado = Math.sqrt(numero);
-        this.nrVisor = String(resultado).slice(0, 10);
+  teclaRaiz() {
+    if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
+    let numero = parseFloat(this.nrVisor);
+    if (numero < 0) {
+      this.estadoErro = true;
+      return;
     }
+    let resultado = Math.sqrt(numero);
+    this.nrVisor = String(resultado).slice(0, 10);
+  }
 
-    teclaInverso() {
-        if (this.estadoErro) return;
-        let numero = parseFloat(this.nrVisor);
-        if (numero === 0) {
-            this.estadoErro = true;
-            return;
-        }
-        let resultado = 1 / numero;
-        this.nrVisor = String(resultado).slice(0, 10);
+  teclaInverso() {
+    if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
+    let numero = parseFloat(this.nrVisor);
+    if (numero === 0) {
+      this.estadoErro = true;
+      return;
     }
+    let resultado = 1 / numero;
+    this.nrVisor = String(resultado).slice(0, 10);
+  }
 
-    teclaMaisMenos(){
-        if(this.estadoErro) return;
-        let numero = parseFloat(this.nrVisor);
-        let resultado;
-        if (numero > 0){
-           resultado =  -numero;
-            this.nrVisor = String(resultado).slice(0, 10);
-        } else if(numero<0) {
-         resultado = -numero;
-         this.nrVisor = String(resultado).slice(0, 10);
-        }
+  teclaMaisMenos() {
+    if (this.estadoErro) return;
+    if (this.estaDesligada()) return;
+    let numero = parseFloat(this.nrVisor);
+    let resultado;
+    if (numero > 0) {
+      resultado = -numero;
+      this.nrVisor = String(resultado).slice(0, 10);
+    } else if (numero < 0) {
+      resultado = -numero;
+      this.nrVisor = String(resultado).slice(0, 10);
     }
+  }
 }
 
 // ==================================================================
@@ -233,6 +269,14 @@ let teclaC = () => {
   atualizaVisor();
 };
 
+let onOf = () => {
+  if (calculadora.estaLigada) {
+    calculadora.off();
+  } else {
+    calculadora.on();
+  }
+};
+
 // TECLA X2: MOSTRA NO VISOR O QUADRADO DO NÚMERO DIGITADO
 let quadradoNumero = () => {
   calculadora.quadradoNumero();
@@ -261,19 +305,19 @@ let teclaCLM = () => {
 };
 
 let teclaRaiz = () => {
-    calculadora.teclaRaiz();
-    atualizaVisor();
-}
+  calculadora.teclaRaiz();
+  atualizaVisor();
+};
 
 let teclaInverso = () => {
-    calculadora.teclaInverso();
-    atualizaVisor();
-}
+  calculadora.teclaInverso();
+  atualizaVisor();
+};
 
-let teclaMaisMenos = () =>{
-    calculadora.teclaMaisMenos();
-    atualizaVisor();
-}
+let teclaMaisMenos = () => {
+  calculadora.teclaMaisMenos();
+  atualizaVisor();
+};
 
 // ========================================================
 //  INÍCIO DO PROCESSAMENTO
