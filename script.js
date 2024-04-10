@@ -135,17 +135,66 @@ class Calculadora {
     this.memoria -= parseFloat(this.nrVisor);
   }
 
-  // tecla RM : recupera o conteúdo da memória -> coloca no visor
-  teclaRM() {
+  // tecla M+ : acrescenta à memória o número no visor
+  teclaMmais() {
     if (this.estadoErro) return;
-    this.nrVisor = String(this.memoria);
+    this.memoria += parseFloat(this.nrVisor);
   }
 
-  // tecla CLM : limpa totalmente o conteúdo da memória -> atribui 0
-  teclaCLM() {
+  // tecla M- : subtrai da memória o número no visor
+  teclaMmenos() {
     if (this.estadoErro) return;
-    this.memoria = 0;
+    this.memoria -= parseFloat(this.nrVisor);
   }
+
+    // tecla RM : recupera o conteúdo da memória -> coloca no visor
+    teclaRM() {
+        if (this.estadoErro) return;
+        this.nrVisor = String(this.memoria);
+    }
+
+    // tecla CLM : limpa totalmente o conteúdo da memória -> atribui 0
+    teclaCLM() {
+        if (this.estadoErro) return;
+    if (this.memoria !== 0) {
+        this.memoria = 0; 
+     }
+    }
+
+    teclaRaiz(){
+        if (this.estadoErro) return;
+        let numero = parseFloat(this.nrVisor);
+        if (numero < 0) {
+            this.estadoErro = true;
+            return;
+        }
+        let resultado = Math.sqrt(numero);
+        this.nrVisor = String(resultado).slice(0, 10);
+    }
+
+    teclaInverso() {
+        if (this.estadoErro) return;
+        let numero = parseFloat(this.nrVisor);
+        if (numero === 0) {
+            this.estadoErro = true;
+            return;
+        }
+        let resultado = 1 / numero;
+        this.nrVisor = String(resultado).slice(0, 10);
+    }
+
+    teclaMaisMenos(){
+        if(this.estadoErro) return;
+        let numero = parseFloat(this.nrVisor);
+        let resultado;
+        if (numero > 0){
+           resultado =  -numero;
+            this.nrVisor = String(resultado).slice(0, 10);
+        } else if(numero<0) {
+         resultado = -numero;
+         this.nrVisor = String(resultado).slice(0, 10);
+        }
+    }
 }
 
 // ==================================================================
@@ -210,6 +259,21 @@ let teclaRM = () => {
 let teclaCLM = () => {
   calculadora.teclaCLM();
 };
+
+let teclaRaiz = () => {
+    calculadora.teclaRaiz();
+    atualizaVisor();
+}
+
+let teclaInverso = () => {
+    calculadora.teclaInverso();
+    atualizaVisor();
+}
+
+let teclaMaisMenos = () =>{
+    calculadora.teclaMaisMenos();
+    atualizaVisor();
+}
 
 // ========================================================
 //  INÍCIO DO PROCESSAMENTO
