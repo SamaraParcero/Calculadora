@@ -186,22 +186,15 @@ class Calculadora {
     teclaMaisMenos(){
         if(this.estadoErro) return;
         let numero = parseFloat(this.nrVisor);
+        let resultado;
         if (numero > 0){
-            resultado =  numero*(-numero);
+           resultado =  -numero;
             this.nrVisor = String(resultado).slice(0, 10);
         } else if(numero<0) {
-         resultado = -(-numero);
+         resultado = -numero;
          this.nrVisor = String(resultado).slice(0, 10);
         }
     }
-
-
-
-  // tecla CLM : limpa totalmente o conteúdo da memória -> atribui 0
-  teclaCLM() {
-    if (this.estadoErro) return;
-    this.memoria = 0;
-  }
 }
 
 // ==================================================================
