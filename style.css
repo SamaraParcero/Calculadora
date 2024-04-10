@@ -1,12 +1,6 @@
 body {
   background: rgb(2, 0, 36);
-  background: linear-gradient(
-    357deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(59, 9, 121, 0.8253676470588236) 51%,
-    rgba(0, 212, 255, 1) 100%
-  );
-  overflow-y: hidden;
+  background-color: gray;
   padding: 0;
   margin: 0;
   text-align: center;
