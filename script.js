@@ -116,6 +116,12 @@ class Calculadora {
     this.estadoErro = false;
   }
 
+  // Tecla x2 : Quadrado do número
+  quadradoNumero() {
+    let quadrado = (this.nrVisor *= this.nrVisor);
+    this.nrVisor = quadrado;
+  }
+
   // tecla M+ : acrescenta à memória o número no visor
   teclaMmais() {
     if (this.estadoErro) return;
@@ -138,17 +144,6 @@ class Calculadora {
   teclaCLM() {
     if (this.estadoErro) return;
     this.memoria = 0;
-  }
-
-  porcentagem() {
-    if (this.estadoErro || !this.memTemp) return;
-    let numero1 = parseFloat(this.memTemp);
-    let numero2 = parseFloat(this.nrVisor);
-    let resultado = (numero1 * numero2) / 100;
-    this.nrVisor = String(resultado);
-    this.iniciouSegundo = false;
-    this.ptDecimal = false;
-    this.memTemp = "";
   }
 }
 
@@ -188,6 +183,12 @@ let teclaC = () => {
   atualizaVisor();
 };
 
+// TECLA X2: MOSTRA NO VISOR O QUADRADO DO NÚMERO DIGITADO
+let quadradoNumero = () => {
+  calculadora.quadradoNumero();
+  atualizaVisor();
+};
+
 // M+ ACRESCENTA À MEMÓRIA O NÚMERO ATUAL NO VISOR
 let teclaMmais = () => {
   calculadora.teclaMmais();
@@ -207,11 +208,6 @@ let teclaRM = () => {
 // APAGA TODO O CONTEÚDO DA MEMÓRIA
 let teclaCLM = () => {
   calculadora.teclaCLM();
-};
-
-let porcentagem = () => {
-  calculadora.porcentagem();
-  atualizaVisor();
 };
 
 // ========================================================
