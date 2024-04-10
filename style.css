@@ -6,6 +6,7 @@ body {
     rgba(59, 9, 121, 0.8253676470588236) 51%,
     rgba(0, 212, 255, 1) 100%
   );
+  overflow-y: hidden;
   padding: 0;
   margin: 0;
   text-align: center;
@@ -15,7 +16,7 @@ body {
   background-color: lightgray;
   width: 450px;
   margin: auto;
-  margin-top: 30px;
+  margin-top: 5px;
   /* padding: 20px; */
   border-radius: 15px;
   box-shadow: 20px 20px 30px 20px rgb(0, 0, 0, 0.5);
