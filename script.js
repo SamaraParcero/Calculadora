@@ -147,7 +147,7 @@ class Calculadora {
     if (this.estadoErro) return;
     if (this.estaDesligada()) return;
     let quadrado = (this.nrVisor *= this.nrVisor);
-    this.nrVisor = quadrado;
+    this.nrVisor = String(quadrado).slice(0, 10);
   }
 
   // tecla M+ : acrescenta à memória o número no visor
